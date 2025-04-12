@@ -55,7 +55,10 @@ def dummy_action(name):
 
 # --- Main Window ---
 root = ttk.Window(themename="cosmo")
-root.geometry("800x480")
+root.update_idletasks()  # Ensures accurate screen size
+root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight()}+0+0")
+#root.state("zoomed")
+#root.geometry("800x400")
 root.title("Serial Terminal with Tabs")
 root.resizable(False, False)
 
