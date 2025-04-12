@@ -48,7 +48,7 @@ Exec=$WORKDIR/run.sh
 Icon=$WORKDIR/icon.png
 Terminal=true
 Type=Other
-Categories=Utility;
+Categories=Other;
 EOF" > $DESKTOP_FILE
 
 chmod +x "$DESKTOP_FILE"
