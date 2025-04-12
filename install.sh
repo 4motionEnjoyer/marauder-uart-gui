@@ -46,8 +46,8 @@ Name=Marauder UART GUI
 Comment=Launch the Marauder UART GUI App
 Exec=$WORKDIR/run.sh
 Icon=$WORKDIR/icon.png
-Terminal=true
-Type=Other
+Terminal=false
+Type=Application
 Categories=Other;" > $DESKTOP_FILE
 
 chmod +x "$DESKTOP_FILE"
