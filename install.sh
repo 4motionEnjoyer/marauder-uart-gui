@@ -5,7 +5,7 @@ HOMEDIR=$(eval echo ~$USER)
 WORKDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV_PATH="$HOMEDIR/marauder-uart-gui-python3venv"
 DESKTOP_FILE="$HOMEDIR/Desktop/mUg.desktop"
-DESKTOP_FILE="$HOMEDIR/Työpöytä/mUg.desktop" #comment this line if you don't have the finnish legends -package.
+#DESKTOP_FILE="$HOMEDIR/Työpöytä/mUg.desktop" #comment this line if you don't have the finnish legends -package.
 
 # Check if the virtual environment exists
 if [ ! -d "$VENV_PATH" ]; then
