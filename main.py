@@ -27,6 +27,8 @@ def refresh_terminal(feed_text_widget):
     root.after(100, refresh_terminal, feed_text_widget)
 
 def send_command(command):
+    if command == "Exit":
+        exit()
     try:
         with serial.Serial("/dev/ttyUSB0", 115200, timeout=1) as ser:
             ser.write(f"{command}\n".encode())
