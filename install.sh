@@ -5,8 +5,9 @@ HOMEDIR=$(eval echo ~$USER)
 WORKDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 VENV_PATH="$HOMEDIR/marauder-uart-gui-python3venv"
 DESKTOP_FILE="$HOMEDIR/Desktop/mUg.desktop"
-#DESKTOP_FILE="$HOMEDIR/Työpöytä/mUg.desktop" #comment this line if you don't have the finnish legends -package.
-
+if [ "$1" == "fi" ]; then
+    DESKTOP_FILE="$HOMEDIR/Työpöytä/mUg.desktop" #comment this line if you don't have the finnish legends -package.
+fi
 # Check if the virtual environment exists
 if [ ! -d "$VENV_PATH" ]; then
     echo "Virtual environment not found at $VENV_PATH. Creating a new one..."
@@ -46,7 +47,7 @@ Comment=Launch the Marauder UART GUI App
 Exec=$WORKDIR/run.sh
 Icon=$WORKDIR/icon.png
 Terminal=true
-Type=Application
+Type=Other
 Categories=Utility;
 EOF" > $DESKTOP_FILE
 
