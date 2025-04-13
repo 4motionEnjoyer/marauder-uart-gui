@@ -25,6 +25,4 @@ To do:
 Ideas:
 - GPS integration to sw from rpi side. 
 - Manual command input tab
-
-
-marauder_uart_gui
+- Improved input
