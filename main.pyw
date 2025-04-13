@@ -32,7 +32,7 @@ def send_command(command):
         exit()
     if command == "Minimize":
         root.state("iconic")	
-
+	return
     try:
         with serial.Serial("/dev/ttyUSB0", 115200, timeout=1) as ser:
             ser.write(f"{command}\n".encode())
