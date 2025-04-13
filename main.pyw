@@ -12,7 +12,8 @@ configs = {}            #configs var
 
 def update_terminal(feed_queue):
     try:
-        with serial.Serial("/dev/ttyUSB0", 115200, timeout=1) as ser:
+        #with serial.Serial("/dev/ttyUSB0", 115200, timeout=1) as ser:
+        with serial.Serial(configs["serial_port"], 115200, timeout=1) as ser:
             while True:
                 line = ser.readline()
                 if line:
@@ -40,7 +41,8 @@ def send_command(command):
     if command == "tbd":
         return
     try:
-        with serial.Serial("/dev/ttyUSB0", 115200, timeout=1) as ser:
+        #with serial.Serial("/dev/ttyUSB0", 115200, timeout=1) as ser:
+        with serial.Serial(configs["serial_port"], 115200, timeout=1) as ser:
             ser.write(f"{command}\n".encode())
     except Exception as e:
         print(f"Error sending command: {e}")
@@ -80,7 +82,27 @@ def read_config():
             param_key = line.split("=")[0]
             param_value = line.split("=")[1]
             configs.update({param_key.rstrip():param_value.rstrip()})    #key val pairs as a dict should have.
-        
+
+def apply_serial_port():
+    selected_serial_port = serial_var.get()  # Get the value from the serial_entry widget
+    print(f"Serial Port entered: '{selected_serial_port}'")  # Debugging line
+
+    if selected_serial_port:
+        configs["serial_port"] = selected_serial_port  # Update the serial port in the configs
+
+        # Save to config file
+        with open(workdir + "/config.txt", "w") as f:
+            for key, value in configs.items():
+                f.write(f"{key}={value}\n")  # Write the updated config back to the file
+
+        # Update the serial port label with the new value
+        serial_label.config(text="Serial Port: " + selected_serial_port)  # Update label
+
+        terminal_feed.insert("end", f"Serial Port set to: {selected_serial_port}\n")
+        terminal_feed.yview("end")
+    else:
+        terminal_feed.insert("end", "Error: Invalid serial port\n")
+        terminal_feed.yview("end")
 
 def apply_theme(selected_theme):
     global configs
@@ -89,7 +111,7 @@ def apply_theme(selected_theme):
     # Save to config
     with open(workdir+"/config.txt", "w") as f:
         for key, value in configs.items():
-            f.write(key + "=" + value) 
+            f.write(key + "=" + value + "\n") 
 
 # Send button
 def send_manual_input():
@@ -113,7 +135,6 @@ def open_keyboard():
 
 # --- Main Window ---
 read_config()
-print(str(configs))
 if configs["theme"] == "dark" or configs["theme"] == "darkly":
     theme = "darkly"
 elif configs["theme"] == "light" or configs["theme"] == "cosmo":
@@ -262,6 +283,30 @@ theme_frame.pack()
 
 ttk.Radiobutton(theme_frame, text="Light", variable=theme_var, value="light", command=lambda: apply_theme("cosmo")).pack(side=LEFT, padx=10)
 ttk.Radiobutton(theme_frame, text="Dark", variable=theme_var, value="dark", command=lambda: apply_theme("darkly")).pack(side=LEFT, padx=10)
+
+# --- Serial Port Section ---
+# Create a Label for Serial Port display
+serial_label = ttk.Label(settings_tab, text="Serial Port: " + configs.get("serial_port", "Not Set"))
+serial_label.pack(pady=(20, 5))
+
+# Initialize serial_var with the current serial port value
+serial_var = ttk.StringVar(value=configs.get("serial_port", ""))  # Get serial port from config or default to empty string
+
+serial_frame = ttk.Frame(settings_tab)
+serial_frame.pack()
+
+# Entry widget for serial port input
+serial_entry = ttk.Entry(serial_frame, textvariable=serial_var, width=30, font=("Courier", 12))
+serial_entry.pack(side=LEFT, padx=10)
+
+# Apply Serial Port Button
+apply_serial_button = ttk.Button(serial_frame, text="Apply Port", command=apply_serial_port)
+apply_serial_button.pack(side=LEFT, padx=10)
+
+# Button to open the on-screen keyboard
+keyboard_button = ttk.Button(serial_frame, text="Open Keyboard", command=open_keyboard)
+keyboard_button.pack(side=LEFT, padx=10)
+
 
 
 #....More stuff 

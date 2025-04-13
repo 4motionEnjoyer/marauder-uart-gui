@@ -1,1 +1,2 @@
 theme=darkly
+serial_port=/dev/ttyUSB0
