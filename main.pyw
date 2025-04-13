@@ -4,8 +4,11 @@ import threading
 import serial
 import queue
 import os
+import sys
 
 feed_queue = queue.Queue()
+workdir = sys.argv[1]	#first argument is workdir
+configs = {}            #configs var
 
 def update_terminal(feed_queue):
     try:
@@ -29,6 +32,7 @@ def refresh_terminal(feed_text_widget):
 
 def send_command(command):
     if command == "Exit":
+        send_command("stopscan")
         exit()
     if command == "Minimize":
         root.state("iconic")	
@@ -58,8 +62,61 @@ def send_input():
 def dummy_action(name):
     print(f"Pressed: {name}")
     send_command(name)
+
+def read_config():
+    with open(workdir+"/config.txt") as f:
+        lines=f.readlines()
+        lines_parsed = []
+        for line in lines:
+            if line[0] == "#":          #comments start with #
+                continue
+            elif line[0] == "\n":
+                continue
+            else:
+                lines_parsed.append(line)
+        for line in lines_parsed:
+            param_key = line.split("=")[0]
+            param_value = line.split("=")[1]
+            configs.update({param_key.rstrip():param_value.rstrip()})    #key val pairs as a dict should have.
+        
+
+def apply_theme(selected_theme):
+    global configs
+    root.style.theme_use("darkly" if selected_theme == "darkly" else "cosmo")
+    configs["theme"] = selected_theme
+    # Save to config
+    with open(workdir+"/config.txt", "w") as f:
+        for key, value in configs.items():
+            f.write(key + "=" + value) 
+
+# Send button
+def send_manual_input():
+    command = mi_textbox.get("1.0", "end").strip()
+    if command:
+        send_command(command)
+        terminal_feed.insert("end", f"> {command}\n")
+        terminal_feed.yview("end")
+        mi_textbox.delete("1.0", "end")
+
+
+def open_keyboard():
+    try:
+        if os.name == "nt":  # Windows
+            os.system("osk")
+        else:  # Linux (adjust as needed)
+            os.system("onboard &")
+    except Exception as e:
+        terminal_feed.insert("end", f"Keyboard Error: {e}\n")
+
+
 # --- Main Window ---
-root = ttk.Window(themename="cosmo")
+read_config()
+print(str(configs))
+if configs["theme"] == "dark" or configs["theme"] == "darkly":
+    theme = "darkly"
+elif configs["theme"] == "light" or configs["theme"] == "cosmo":
+    theme = "cosmo"
+root = ttk.Window(themename=theme)
 root.update_idletasks()  # Ensures accurate screen size
 root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight()}+0+0")
 #root.state("zoomed")
@@ -180,30 +237,32 @@ mi_input_var = ttk.StringVar()
 mi_textbox = ttk.Text(mi_tab, height=6, width=50, font=("Courier", 12))
 mi_textbox.pack(padx=20, pady=(20, 10), fill=X)
 
-# Send button
-def send_manual_input():
-    command = mi_textbox.get("1.0", "end").strip()
-    if command:
-        send_command(command)
-        terminal_feed.insert("end", f"> {command}\n")
-        terminal_feed.yview("end")
-        mi_textbox.delete("1.0", "end")
 
 send_button = ttk.Button(mi_tab, text="Send", command=send_manual_input)
 send_button.pack(pady=5)
 
 # Open on-screen keyboard
-def open_keyboard():
-    try:
-        if os.name == "nt":  # Windows
-            os.system("osk")
-        else:  # Linux (adjust as needed)
-            os.system("onboard &")
-    except Exception as e:
-        terminal_feed.insert("end", f"Keyboard Error: {e}\n")
 
 keyboard_button = ttk.Button(mi_tab, text="Open Keyboard", command=open_keyboard)
 keyboard_button.pack(pady=5)
+
+# === Settings Tab ===
+settings_tab = ttk.Frame(tabs)
+tabs.add(settings_tab, text="Settings")
+
+theme_var = theme
+
+
+ttk.Label(settings_tab, text="Theme:").pack(pady=(20, 5))
+
+theme_frame = ttk.Frame(settings_tab)
+theme_frame.pack()
+
+ttk.Radiobutton(theme_frame, text="Light", variable=theme_var, value="light", command=lambda: apply_theme("cosmo")).pack(side=LEFT, padx=10)
+ttk.Radiobutton(theme_frame, text="Dark", variable=theme_var, value="dark", command=lambda: apply_theme("darkly")).pack(side=LEFT, padx=10)
+
+
+#....More stuff 
 
 # --- Start GUI ---
 

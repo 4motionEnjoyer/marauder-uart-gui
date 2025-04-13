@@ -10,7 +10,7 @@ DESKTOP_FILE="$HOMEDIR/Desktop/mUg.desktop"
 VENV_PATH="$HOMEDIR/marauder-uart-gui-python3venv"
 
 source "$VENV_PATH/bin/activate"
-python $WORKDIR/main.pyw
+python $WORKDIR/main.pyw $WORKDIR
 deactivate
 
 echo "Virtual environment deactivated."
