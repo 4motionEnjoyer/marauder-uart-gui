@@ -18,9 +18,12 @@ To do:
 - Uninstall script
 - More wifi commands
 - Bluetooth commands
-- Dark theme
 - GUI user manual
 - Remove hardcoded /dev/ttyUSB0 for ESP32 
+
+Done:
+- Dark theme 
+- Along dark theme, a /reporoot/config.txt mechanism
 
 Ideas:
 - GPS integration to sw from rpi side. 

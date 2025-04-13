@@ -229,7 +229,7 @@ for i in range(2):
 
 # === Manual input tab ===
 mi_tab = ttk.Frame(tabs)
-tabs.add(mi_tab, text="Manualinput")
+tabs.add(mi_tab, text="Manual input")
 
 mi_input_var = ttk.StringVar()
 
