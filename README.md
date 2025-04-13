@@ -6,13 +6,14 @@ RPi4, caribouLite, 7inch display, huzzah32 for now.
 Go give justcallmekoko a star for his work, he deserves it.
 
 
-Guide to running
+Guide to running:  \
+'''
 sudo apt install python3-full \
 git clone https://github.com/4motionEnjoyer/marauder-uart-gui.git \
 cd marauder-uart-gui/ \
 ./install.sh \
 ./run.sh \
-
+'''
 To do:
 - Uninstall script
 - More wifi commands
