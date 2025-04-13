@@ -30,6 +30,9 @@ def refresh_terminal(feed_text_widget):
 def send_command(command):
     if command == "Exit":
         exit()
+    if command == "Minimize":
+        root.state("iconic")	
+
     try:
         with serial.Serial("/dev/ttyUSB0", 115200, timeout=1) as ser:
             ser.write(f"{command}\n".encode())
@@ -129,7 +132,7 @@ wifi_button_grid.pack(side=LEFT, expand=True, fill=BOTH, padx=10, pady=10)
 
 wifi_buttons = [
     "scanap", "stopscan", "list -a", "attack -t deauth",
-    "Stop", "Clear Logs", "Save", "Exit"
+    "Stop", "Clear Logs", "Exit", "Minimize"
 ]
 
 for index, label in enumerate(wifi_buttons):
