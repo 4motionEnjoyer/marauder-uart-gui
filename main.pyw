@@ -37,6 +37,8 @@ def send_command(command):
     if command == "Minimize":
         root.state("iconic")	
         return
+    if command == "tbd":
+        return
     try:
         with serial.Serial("/dev/ttyUSB0", 115200, timeout=1) as ser:
             ser.write(f"{command}\n".encode())
@@ -189,7 +191,7 @@ wifi_button_grid.pack(side=LEFT, expand=True, fill=BOTH, padx=10, pady=10)
 
 wifi_buttons = [
     "scanap", "stopscan", "list -a", "attack -t deauth",
-    "Stop", "Clear Logs", "Exit", "Minimize"
+    "tbd", "tbd", "Exit", "Minimize"
 ]
 
 for index, label in enumerate(wifi_buttons):
@@ -211,14 +213,14 @@ bt_button_grid = ttk.Frame(bt_tab)
 bt_button_grid.pack(expand=True, fill=BOTH, padx=20, pady=20)
 
 bt_buttons = [
-    "Scan BT", "Pair", "Unpair", "Connect",
-    "Disconnect", "Info", "Rename", "Exit"
+    "blespam -t all", "stopscan", "tbd", "tbd",
+    "tbd", "tbd", "Exit", "Minimize"
 ]
 
 for index, label in enumerate(bt_buttons):
     row = index // 2
     col = index % 2
-    btn = ttk.Button(bt_button_grid, text=label, command=lambda l=label: dummy_action(f"bt:{l}"), width=12)
+    btn = ttk.Button(bt_button_grid, text=label, command=lambda l=label: dummy_action(l), width=12)
     btn.grid(row=row, column=col, padx=5, pady=5, sticky="nsew")
 
 for i in range(4):

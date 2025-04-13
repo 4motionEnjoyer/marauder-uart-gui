@@ -12,5 +12,6 @@ VENV_PATH="$HOMEDIR/marauder-uart-gui-python3venv"
 source "$VENV_PATH/bin/activate"
 python $WORKDIR/main.pyw $WORKDIR
 deactivate
+echo "stopscan" > /dev/ttyUSB0
 
 echo "Virtual environment deactivated."
