@@ -8,7 +8,7 @@ Go give justcallmekoko a star for his work, he deserves it.
 
 Guide to running:  
 ```
-sudo apt install python3-full 
+sudo apt install python3-full onboard
 git clone https://github.com/4motionEnjoyer/marauder-uart-gui.git 
 cd marauder-uart-gui/ 
 ./install.sh 

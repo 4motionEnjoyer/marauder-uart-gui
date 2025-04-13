@@ -3,6 +3,7 @@ from ttkbootstrap.constants import *
 import threading
 import serial
 import queue
+import os
 
 feed_queue = queue.Queue()
 
@@ -52,9 +53,8 @@ def send_input():
         send_command(command)
 
 def dummy_action(name):
-    send_command(name)
     print(f"Pressed: {name}")
-
+    send_command(name)
 # --- Main Window ---
 root = ttk.Window(themename="cosmo")
 root.update_idletasks()  # Ensures accurate screen size
@@ -166,5 +166,43 @@ for i in range(4):
 for i in range(2):
     bt_button_grid.columnconfigure(i, weight=1)
 
+
+# === Manual input tab ===
+mi_tab = ttk.Frame(tabs)
+tabs.add(mi_tab, text="Manualinput")
+
+mi_input_var = ttk.StringVar()
+
+# Create a text widget for manual input
+mi_textbox = ttk.Text(mi_tab, height=6, width=50, font=("Courier", 12))
+mi_textbox.pack(padx=20, pady=(20, 10), fill=X)
+
+# Send button
+def send_manual_input():
+    command = mi_textbox.get("1.0", "end").strip()
+    if command:
+        send_command(command)
+        terminal_feed.insert("end", f"> {command}\n")
+        terminal_feed.yview("end")
+        mi_textbox.delete("1.0", "end")
+
+send_button = ttk.Button(mi_tab, text="Send", command=send_manual_input)
+send_button.pack(pady=5)
+
+# Open on-screen keyboard
+def open_keyboard():
+    try:
+        if os.name == "nt":  # Windows
+            os.system("osk")
+        else:  # Linux (adjust as needed)
+            os.system("onboard &")
+    except Exception as e:
+        terminal_feed.insert("end", f"Keyboard Error: {e}\n")
+
+keyboard_button = ttk.Button(mi_tab, text="Open Keyboard", command=open_keyboard)
+keyboard_button.pack(pady=5)
+
 # --- Start GUI ---
+
+
 root.mainloop()
