@@ -29,3 +29,12 @@ Ideas:
 - GPS integration to sw from rpi side. 
 - Manual command input tab
 - Improved input
+
+------------------------------------------------------------------------
+Screenshots of the UI
+
+![alt text](https://github.com/4motionEnjoyer/marauder-uart-gui/blob/main/screenshots_of_UI_progress/wifitab_v0.8.png.png?raw=true)
+
+![alt text](https://github.com/4motionEnjoyer/marauder-uart-gui/blob/main/screenshots_of_UI_progress/settingstab_v0.8.png.png?raw=true)
+
+![alt text](https://github.com/4motionEnjoyer/marauder-uart-gui/blob/main/screenshots_of_UI_progress/manualinputtab_v0.8.png.png?raw=true)
