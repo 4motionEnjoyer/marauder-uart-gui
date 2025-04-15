@@ -19,11 +19,11 @@ To do:
 - More wifi commands
 - Bluetooth commands
 - GUI user manual
-- Remove hardcoded /dev/ttyUSB0 for ESP32 
 
 Done:
 - Dark theme 
 - Along dark theme, a /reporoot/config.txt mechanism
+- Remove hardcoded /dev/ttyUSB0 for ESP32 
 
 Ideas:
 - GPS integration to sw from rpi side. 
