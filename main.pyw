@@ -141,9 +141,11 @@ elif configs["theme"] == "light" or configs["theme"] == "cosmo":
     theme = "cosmo"
 root = ttk.Window(themename=theme)
 root.update_idletasks()  # Ensures accurate screen size
-root.geometry(f"{root.winfo_screenwidth()}x{root.winfo_screenheight()}+0+0")
-#root.state("zoomed")
-#root.geometry("800x400")
+if root.winfo_screenwidth() > 1920:
+    screen_width = 1920
+else:
+    screen_width = root.winfo_screenwidth()
+root.geometry(f"{screen_width}x{root.winfo_screenheight()}+0+0")
 root.title("Serial Terminal with Tabs")
 root.resizable(False, False)
 
