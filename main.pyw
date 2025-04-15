@@ -96,7 +96,7 @@ def apply_serial_port():
                 f.write(f"{key}={value}\n")  # Write the updated config back to the file
 
         # Update the serial port label with the new value
-        serial_label.config(text="Serial Port: " + selected_serial_port)  # Update label
+        serial_label.config(text="Serial Port of ESP32: " + selected_serial_port)  # Update label
 
         terminal_feed.insert("end", f"Serial Port set to: {selected_serial_port}\n")
         terminal_feed.yview("end")
